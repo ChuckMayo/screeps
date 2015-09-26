@@ -2,6 +2,9 @@
 
 module.exports = function() {
     var timerStart = Game.getUsedCpu();
+    var profiler = AI.extensions.scripts.profiler;
+    var profileID = "Main";
+    profiler.openProfile(profileID);
 
     AI.extensions.scripts.setup();
     var timerSetup = Game.getUsedCpu();
@@ -91,4 +94,6 @@ module.exports = function() {
     } else if (AI.dontRepeat("Fast round!") === true) {
         console.log("Round " + Game.time + " went fast! (¯`•¸•´¯)");
     }
+
+    profiler.closeProfile(profileID);
 };

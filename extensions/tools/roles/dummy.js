@@ -7,23 +7,23 @@
  */
 function build(spawn) {
     return [
-        WORK, CARRY, MOVE, MOVE
+        TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE
     ];
 }
 
 /**
- * Executed each tick while creep is being spawned.
+ * Executed after each tick while creep is being spawned.
  */
 function spawning(creep) {
 
 }
 
 /**
- * Executed each tick after creep is spawned.
+ * Executed each non-spawning turn
  */
 function turn(creep) {
 
-    // Use routines to abstract and share behaviors between creeps.
+    // Always drop when dying. Uses a routine to simplify code reuse between multiple creep roles.
     if (creep.do("deadCheck", {}) === true) {
         return;
     }

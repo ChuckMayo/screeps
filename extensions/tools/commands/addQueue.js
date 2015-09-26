@@ -5,13 +5,13 @@ function addQueue(priority, flag, parameters) {
 
     if (parameters.length < 2) {
         console.log("Flag command " + parameters[0] + ": addQueue command has not enough parameters");
-        flag.remove();
+        if (flag) flag.remove();
         return;
     }
 
     if (!(parameters[1] in roles)) {
         console.log("Flag command " + parameters[0] + ": can not find role " + parameters[1]);
-        flag.remove();
+        if (flag) flag.remove();
         return;
     }
 
@@ -20,7 +20,7 @@ function addQueue(priority, flag, parameters) {
     if (parameters[2] !== undefined) {
         if (!Game.spawns[parameters[2]]) {
             console.log("Flag command " + parameters[0] + ": can't find spawn " + parameters[2]);
-            flag.remove();
+            if (flag) flag.remove();
             return;
         }
         queue = Memory.spawns[parameters[2]];
@@ -37,16 +37,22 @@ function addQueue(priority, flag, parameters) {
     }
 
     console.log('Flag command ' + parameters[0] + ': added ' + parameters[1] + " to " + priority + " in " + queueName);
-    flag.remove();
+    if (flag) flag.remove();
 }
 
 function command(flag, parameters) {
     addQueue("spawnQueue", flag, parameters);
 }
 
+var native = function(command, priority, parameters) {
+    return addQueue(priority, null, parameters);
+};
+
+
 module.exports = {
     exec: command,
     command: "addQueue",
+    native: native,
     help: 'Description:\n- Adds an ant to a spawnQueue\n\nUsage:\n- addQueue &lt;role&gt; [spawn]',
     addQueue: addQueue,
 };
